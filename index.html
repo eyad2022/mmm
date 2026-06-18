@@ -25,7 +25,6 @@
   </head>
 
   <body>
-    <!-- الناف بار العلوي العصري العائم -->
     <nav class="top-navbar">
       <div class="nav-right">
         <button
@@ -84,7 +83,6 @@
       </div>
     </nav>
 
-    <!-- القائمة الجانبية (Dock) الأنيقة -->
     <div class="settings-dock">
       <button
         class="dock-item"
@@ -146,7 +144,6 @@
       </button>
     </div>
 
-    <!-- نافذة الصور والطباعة (بالضبط كما كانت في الكود الأصلي) -->
     <div id="printBorderOverlay" class="print-border-overlay"></div>
 
     <div id="imageToolbar" class="image-toolbar">
@@ -161,50 +158,14 @@
         تنسيق وحجم الصورة
       </div>
       <div class="toolbar-row">
-        <button
-          type="button"
-          onclick="alignImage('right')"
-          title="محاذاة لليمين"
-        >
-          ➡️ يمين
-        </button>
-        <button
-          type="button"
-          onclick="alignImage('center')"
-          title="توسيط الصورة"
-        >
-          ↔️ وسط
-        </button>
-        <button
-          type="button"
-          onclick="alignImage('left')"
-          title="محاذاة لليسار"
-        >
-          ⬅️ يسار
-        </button>
+        <button type="button" onclick="alignImage('right')">➡️ يمين</button>
+        <button type="button" onclick="alignImage('center')">↔️ وسط</button>
+        <button type="button" onclick="alignImage('left')">⬅️ يسار</button>
       </div>
       <div class="toolbar-row" style="margin-top: 5px">
-        <button
-          type="button"
-          onclick="resizeImage('30%', 'auto')"
-          title="حجم صغير"
-        >
-          S
-        </button>
-        <button
-          type="button"
-          onclick="resizeImage('60%', 'auto')"
-          title="حجم متوسط"
-        >
-          M
-        </button>
-        <button
-          type="button"
-          onclick="resizeImage('100%', 'auto')"
-          title="حجم كامل"
-        >
-          L
-        </button>
+        <button type="button" onclick="resizeImage('30%', 'auto')">S</button>
+        <button type="button" onclick="resizeImage('60%', 'auto')">M</button>
+        <button type="button" onclick="resizeImage('100%', 'auto')">L</button>
       </div>
       <div
         class="toolbar-row"
@@ -230,7 +191,7 @@
               font-weight: bold;
               color: var(--primary-color);
             "
-            >العرض (Width)</span
+            >العرض</span
           >
           <div style="display: flex; gap: 4px; margin-top: 4px">
             <button
@@ -263,7 +224,7 @@
               font-weight: bold;
               color: var(--primary-color);
             "
-            >الطول (Height)</span
+            >الطول</span
           >
           <div style="display: flex; gap: 4px; margin-top: 4px">
             <button
@@ -285,7 +246,6 @@
       </div>
     </div>
 
-    <!-- نافذة الطباعة الأصلية بدون أي تعديل في الـ HTML -->
     <div id="wordPrintModal" class="word-print-modal">
       <div class="word-sidebar">
         <div
@@ -335,7 +295,6 @@
       <div class="word-preview-area" id="wordPrintPreviewArea"></div>
     </div>
 
-    <!-- مساحة العمل -->
     <div class="setup-container" id="setupContainer">
       <div class="tabs">
         <button
@@ -350,7 +309,7 @@
           class="tab-btn"
           onclick="switchTab('text', this)"
         >
-          📄 محرر النصوص والمستندات (مجاني)
+          📄 محرر النصوص والمستندات
         </button>
       </div>
 
@@ -430,7 +389,7 @@
             onclick="setQuestionSystem('science')"
             style="flex: 1; justify-content: center; min-width: 200px"
           >
-            ⚛️ النظام العلمي (الرياضيات والعلوم)
+            ⚛️ النظام العلمي (الرياضيات)
           </button>
         </div>
 
@@ -472,7 +431,6 @@
             >
               ➕ إضافة عنصر <span style="font-size: 10px">▼</span>
             </button>
-            <!-- القائمة المنسدلة -->
             <div
               id="insertMenu"
               class="floating-dropdown-menu"
@@ -562,7 +520,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('bold')"
-                title="عريض"
                 style="font-weight: 900"
               >
                 B
@@ -571,7 +528,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('italic')"
-                title="مائل"
                 style="font-style: italic"
               >
                 I
@@ -580,7 +536,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('underline')"
-                title="تسطير"
                 style="text-decoration: underline"
               >
                 U
@@ -590,7 +545,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyRight')"
-                title="محاذاة لليمين"
               >
                 ➡️
               </button>
@@ -598,7 +552,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyCenter')"
-                title="توسيط"
               >
                 ↔️
               </button>
@@ -606,7 +559,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyLeft')"
-                title="محاذاة لليسار"
               >
                 ⬅️
               </button>
@@ -614,7 +566,6 @@
               <input
                 type="color"
                 onchange="formatText('foreColor', this.value)"
-                title="لون النص"
                 style="
                   width: 30px;
                   height: 30px;
@@ -625,7 +576,6 @@
               />
               <select
                 onchange="formatText('fontSize', this.value)"
-                title="حجم الخط"
                 style="max-width: 90px; height: 32px; padding: 2px 8px"
               >
                 <option value="">حجم</option>
@@ -738,7 +688,7 @@
                 onclick="insertMathEquation()"
                 style="color: #ef4444; font-weight: bold; font-size: 13px"
               >
-                { } كتابة كود LaTeX حر
+                { } كود LaTeX
               </button>
               <button
                 type="button"
@@ -746,7 +696,7 @@
                 onclick="insertCustomTable()"
                 style="border-color: #0ea5e9; color: #0ea5e9; font-weight: bold"
               >
-                📊 إدراج جدول مخصص
+                📊 جدول مخصص
               </button>
             </div>
             <div
@@ -774,7 +724,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('bold')"
-                title="عريض"
                 style="font-weight: 900"
               >
                 B
@@ -783,7 +732,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('italic')"
-                title="مائل"
                 style="font-style: italic"
               >
                 I
@@ -792,7 +740,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('underline')"
-                title="تسطير"
                 style="text-decoration: underline"
               >
                 U
@@ -802,7 +749,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyRight')"
-                title="محاذاة لليمين"
               >
                 ➡️
               </button>
@@ -810,7 +756,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyCenter')"
-                title="توسيط"
               >
                 ↔️
               </button>
@@ -818,7 +763,6 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyLeft')"
-                title="محاذاة لليسار"
               >
                 ⬅️
               </button>
@@ -826,7 +770,6 @@
               <input
                 type="color"
                 onchange="formatText('foreColor', this.value)"
-                title="لون النص"
                 style="
                   width: 30px;
                   height: 30px;
@@ -837,7 +780,6 @@
               />
               <select
                 onchange="formatText('fontSize', this.value)"
-                title="حجم الخط"
                 style="max-width: 90px; height: 32px; padding: 2px 8px"
               >
                 <option value="">حجم</option>
@@ -853,7 +795,7 @@
               contenteditable="true"
               class="rich-textarea"
               dir="auto"
-              placeholder="عنوان صفحة الإجابات هنا...&#10;إذا لم تضع الإجابة بجوار الخيار، اكتبها هنا:&#10;1- ب&#10;2- صح"
+              placeholder="عنوان صفحة الإجابات هنا..."
             ></div>
           </div>
         </div>
@@ -861,16 +803,12 @@
 
       <div id="textTab" class="input-section">
         <div class="form-group">
-          <label
-            >📝 محرر المستندات المتقدم (متوافق مع أدوات وتنسيقات Word
-            مجاناً):</label
-          >
+          <label>📝 محرر المستندات المتقدم:</label>
           <div class="editor-toolbar">
             <button
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('bold')"
-              title="عريض"
               style="font-weight: 900"
             >
               B
@@ -879,7 +817,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('italic')"
-              title="مائل"
               style="font-style: italic"
             >
               I
@@ -888,7 +825,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('underline')"
-              title="تسطير"
               style="text-decoration: underline"
             >
               U
@@ -897,7 +833,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('strikeThrough')"
-              title="يتوسطه خط"
               style="text-decoration: line-through"
             >
               S
@@ -907,7 +842,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('justifyRight')"
-              title="محاذاة لليمين"
             >
               ➡️
             </button>
@@ -915,7 +849,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('justifyCenter')"
-              title="توسيط"
             >
               ↔️
             </button>
@@ -923,7 +856,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('justifyLeft')"
-              title="محاذاة لليسار"
             >
               ⬅️
             </button>
@@ -932,7 +864,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('insertOrderedList')"
-              title="قائمة رقمية"
             >
               1.
             </button>
@@ -940,7 +871,6 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('insertUnorderedList')"
-              title="قائمة نقطية"
             >
               •
             </button>
@@ -948,7 +878,6 @@
             <input
               type="color"
               onchange="formatText('foreColor', this.value)"
-              title="لون النص"
               style="
                 width: 30px;
                 height: 30px;
@@ -960,7 +889,7 @@
             <input
               type="color"
               onchange="formatText('hiliteColor', this.value)"
-              title="لون التمييز"
+              value="#ffff00"
               style="
                 width: 30px;
                 height: 30px;
@@ -968,11 +897,9 @@
                 border: none;
                 border-radius: 4px;
               "
-              value="#ffff00"
             />
             <select
               onchange="formatText('fontSize', this.value)"
-              title="حجم الخط"
               style="max-width: 90px; height: 32px; padding: 2px 8px"
             >
               <option value="">حجم</option>
@@ -1064,12 +991,6 @@
         </button>
       </div>
     </div>
-    <!-- نهاية setupContainer -->
-
-    <!-- ========================================================
-         اللوحات العائمة (Floating Panels)
-         ======================================================== -->
-
     <div id="compactBubblePanel" class="settings-panel floating-panel">
       <div class="panel-header">
         <h3>📄 البابل شيت المضغوط</h3>
@@ -1597,10 +1518,6 @@
         </div>
       </div>
     </div>
-
-    <!-- ========================================================
-         نوافذ المودال (الحسابات، التأكيد، الذكاء الاصطناعي)
-         ======================================================== -->
 
     <div id="authModal" class="custom-modal">
       <div
@@ -2225,7 +2142,6 @@
     <script src="script.js"></script>
     <script src="main.js"></script>
 
-    <!-- سكريبت تشغيل اللوحات العائمة بدون المساس بـ JS الأساسي -->
     <script>
       function toggleFloatingPanel(panelId) {
         const panel = document.getElementById(panelId);
