@@ -8,13 +8,19 @@
     --main-font: 'Cairo', sans-serif;
     --q-font-size: 20px;
     --opt-font-size: 16px;
-    --q-color: #1e293b;
-    --opt-color: #334155;
+    --q-color: #0f172a;
+    --opt-color: #1e293b;
+
+    /* ================= الألوان السحرية المضيئة ================= */
     --primary-color: #6366f1;
-    /* النيلي العصري */
-    --accent-color: #8b5cf6;
-    /* بنفسجي فاتح */
+    /* نيلي ساطع */
+    --accent-color: #00f2fe;
+    /* سيان / أزرق جليدي لامع */
+    --glow-color: rgba(0, 242, 254, 0.4);
+    /* لون الإشعاع المحيط */
     --correct-color: #10b981;
+    /* ======================================================= */
+
     --card-radius: 12px;
     --page-bg-color: #ffffff;
     --page-border: none;
@@ -29,7 +35,7 @@
 
     --ui-bg: #f8fafc;
     --ui-container: #ffffff;
-    --ui-text: #1e293b;
+    --ui-text: #0f172a;
     --ui-border: #e2e8f0;
     --ui-input-bg: #f1f5f9;
 
@@ -44,13 +50,14 @@
 }
 
 body.dark-mode {
-    --ui-bg: #0f172a;
-    --ui-container: #1e293b;
+    --ui-bg: #09090b;
+    --ui-container: #18181b;
     --ui-text: #f8fafc;
-    --ui-border: #334155;
-    --ui-input-bg: #0f172a;
-    --primary-color: #818cf8;
-    --accent-color: #a78bfa;
+    --ui-border: #27272a;
+    --ui-input-bg: #09090b;
+    --primary-color: #8b5cf6;
+    --accent-color: #22d3ee;
+    --glow-color: rgba(139, 92, 246, 0.4);
 }
 
 ::-webkit-scrollbar {
@@ -84,7 +91,7 @@ body {
 }
 
 /* ========================================================
-    الناف بار العلوي العائم (تصميم الشاشات الكبيرة)
+    الناف بار العلوي العائم
     ======================================================== */
 .top-navbar {
     position: fixed;
@@ -149,12 +156,12 @@ body.dark-mode .top-navbar {
 .nav-btn.btn-primary {
     background: var(--primary-color);
     color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
 }
 
 .nav-btn.btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
 }
 
 .nav-btn.btn-vip {
@@ -163,18 +170,21 @@ body.dark-mode .top-navbar {
 }
 
 .nav-btn.btn-ai {
-    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
     color: white;
 }
 
 /* ========================================================
-    شريط المهام الجانبي (Dock)
+    شريط المهام الجانبي (Dock) منفصل تماماً عن الناف بار
     ======================================================== */
 .settings-dock {
     position: fixed;
     right: 20px;
-    top: 50%;
+    top: calc(50% + 40px);
+    /* جعله دائماً أسفل الناف بار */
     transform: translateY(-50%);
+    max-height: calc(100vh - 100px);
+    /* لكي لا يتجاوز حجم الشاشة */
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
@@ -184,15 +194,23 @@ body.dark-mode .top-navbar {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    box-shadow: -8px 15px 35px rgba(99, 102, 241, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.7);
+    box-shadow: -8px 15px 35px rgba(139, 92, 246, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.7);
     z-index: 1000;
     transition: 0.4s ease;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    /* إخفاء شريط التمرير */
+    scrollbar-width: none;
+}
+
+.settings-dock::-webkit-scrollbar {
+    display: none;
 }
 
 body.dark-mode .settings-dock {
     background: rgba(15, 23, 42, 0.65);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    box-shadow: -8px 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: -8px 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(139, 92, 246, 0.15);
 }
 
 .dock-item {
@@ -201,6 +219,7 @@ body.dark-mode .settings-dock {
     font-size: 22px;
     width: 48px;
     height: 48px;
+    min-height: 48px;
     border-radius: 14px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -221,7 +240,7 @@ body.dark-mode .dock-item {
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
     transform: scale(1.15) translateX(-8px);
-    box-shadow: 0 12px 25px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 12px 25px rgba(139, 92, 246, 0.4);
     border-color: transparent;
     z-index: 10;
 }
@@ -238,6 +257,55 @@ body.dark-mode .dock-item {
     border-radius: 2px;
     width: 80%;
     margin: 0 auto;
+    flex-shrink: 0;
+}
+
+/* ========================================================
+    الأيقونات الجديدة السحرية (تراجع / إضافة)
+    ======================================================== */
+.btn-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--ui-container);
+    border: 2px solid var(--ui-border);
+    color: var(--primary-color);
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-icon:hover {
+    transform: scale(1.15);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+.btn-icon-insert {
+    width: 45px;
+    height: 45px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 6px 15px rgba(139, 92, 246, 0.3);
+}
+
+.btn-icon-insert:hover {
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
 }
 
 /* ========================================================
@@ -332,9 +400,6 @@ body.dark-mode .floating-panel .panel-header {
     gap: 15px;
 }
 
-/* ========================================================
-    قائمة الإدراج المنسدلة (Dropdown)
-    ======================================================== */
 .floating-dropdown-menu {
     position: absolute;
     top: calc(100% + 10px);
@@ -402,9 +467,16 @@ body.dark-mode .floating-panel .panel-header {
     transition: 0.3s;
 }
 
-@media (min-width: 1400px) {
+/* ========================================================
+   إصلاح تداخل القائمة الجانبية مع المحرر في جميع شاشات اللابتوب والكمبيوتر
+   ======================================================== */
+@media (min-width: 769px) {
     .setup-container {
-        margin-right: 120px;
+        width: calc(100% - 110px) !important;
+        /* تقليل العرض لتوفير مساحة للقائمة */
+        margin-right: 95px !important;
+        /* إزاحة المحرر بالكامل بعيداً عن الأيقونات */
+        margin-left: auto !important;
     }
 }
 
@@ -437,9 +509,9 @@ body.dark-mode .floating-panel .panel-header {
 }
 
 .tab-btn.active {
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
-    box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 15px rgba(139, 92, 246, 0.3);
 }
 
 .btn-tool {
@@ -532,7 +604,7 @@ input[type="email"]:focus {
     border-color: var(--primary-color);
     outline: none;
     background-color: var(--ui-container);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
 }
 
 input[type="color"] {
@@ -761,24 +833,24 @@ button.action-btn {
 }
 
 .btn-pdf-student {
-    background: #3b82f6;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
 
 .btn-pdf-teacher {
-    background: #ef4444;
+    background: linear-gradient(135deg, #ef4444, #e11d48);
 }
 
 .btn-pdf-both {
-    background: #8b5cf6;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
 }
 
 .btn-pdf-multi {
-    background: #10b981;
+    background: linear-gradient(135deg, #10b981, #059669);
     flex: 1 1 100% !important;
 }
 
 .btn-pdf-general {
-    background: #10b981;
+    background: linear-gradient(135deg, #10b981, #059669);
     flex: 1 1 100% !important;
     font-size: 20px !important;
 }
@@ -786,7 +858,7 @@ button.action-btn {
 button.action-btn:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-    filter: brightness(1.05);
+    filter: brightness(1.1);
 }
 
 #printArea {
@@ -1340,15 +1412,14 @@ button.action-btn:hover {
 }
 
 /* ========================================================
-    التجاوب مع شاشات الهاتف الصغيرة جداً (إصلاح جذري للتشوه)
+    التجاوب مع شاشات الهاتف الصغيرة 
     ======================================================== */
 @media (max-width: 768px) {
     .top-navbar {
         height: auto;
-        padding: 12px;
+        padding: 12px 15px;
         display: flex;
         flex-direction: column;
-        /* تحويل الناف بار لعمود لترتيب العناصر فوق بعضها بثبات */
         gap: 12px;
         background: var(--ui-container);
     }
@@ -1359,7 +1430,6 @@ button.action-btn:hover {
 
     .nav-center {
         order: 1;
-        /* إجبار اللوجو واسم الموقع على الظهور في الصف الأول */
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -1370,16 +1440,14 @@ button.action-btn:hover {
 
     .top-navbar h2 {
         display: block !important;
-        font-size: 15px !important;
+        font-size: 16px !important;
         margin: 0;
         text-align: center;
         white-space: nowrap;
-        /* منع انكسار الكلمة */
     }
 
     .nav-right {
         order: 2;
-        /* إجبار أزرار الحسابات على الظهور في الصف الثاني */
         width: 100%;
         display: flex;
         gap: 10px;
@@ -1387,7 +1455,6 @@ button.action-btn:hover {
 
     .nav-left {
         order: 3;
-        /* إجبار أزرار الذكاء الاصطناعي على الظهور في الصف الثالث */
         width: 100%;
         display: flex;
         gap: 10px;
@@ -1397,16 +1464,16 @@ button.action-btn:hover {
         padding: 10px 5px;
         font-size: 13px;
         flex: 1;
-        /* جعل الأزرار تتمدد بشكل متساوٍ لملء الشاشة بالكامل */
         display: flex;
         justify-content: center;
         align-items: center;
         white-space: nowrap;
+        margin: 0;
     }
 
     .setup-container {
-        margin-top: 170px;
-        /* زيادة المساحة العلوية لاستيعاب الناف بار الجديد بدون تداخل */
+        margin-top: 190px;
+        margin-bottom: 80px;
         padding: 15px;
         width: 100%;
         border-radius: 12px;
@@ -1416,6 +1483,13 @@ button.action-btn:hover {
         flex-direction: column;
         gap: 10px;
         margin-bottom: 15px;
+    }
+
+    #profileDropdownMenu {
+        width: calc(100vw - 30px) !important;
+        right: 15px !important;
+        left: 15px !important;
+        top: calc(100% + 5px) !important;
     }
 
     .setup-container h1 {
@@ -1439,7 +1513,6 @@ button.action-btn:hover {
         width: 100%;
     }
 
-    /* إصلاح خروج الكلمات عن الأزرار العادية */
     .btn-tool {
         width: 100%;
         justify-content: center;
@@ -1450,7 +1523,6 @@ button.action-btn:hover {
         line-height: 1.4;
     }
 
-    /* ترتيب القوائم الجانبية لتكون عمودية ولا تنكسر */
     .settings-grid {
         grid-template-columns: 1fr;
         gap: 15px;
@@ -1526,7 +1598,6 @@ button.action-btn:hover {
         margin-bottom: 20px !important;
     }
 
-    /* إصلاح تداخل الأيقونات في الشريط السفلي بجعله قابل للتمرير الأفقي بسلاسة */
     .settings-dock {
         right: 0;
         left: 0;
@@ -1542,7 +1613,13 @@ button.action-btn:hover {
         padding: 12px 15px;
         background: rgba(255, 255, 255, 0.98);
         gap: 15px;
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .settings-dock::-webkit-scrollbar {
+        display: none;
     }
 
     body.dark-mode .settings-dock {
@@ -1553,9 +1630,9 @@ button.action-btn:hover {
         flex-shrink: 0;
         width: 45px;
         height: 45px;
+        min-height: 45px;
     }
 
-    /* منع انضغاط الأيقونات */
     .dock-divider {
         display: none;
     }
@@ -1572,8 +1649,7 @@ button.action-btn:hover {
 
 
 /* ========================================================
-    كود الطباعة الأصلي 100% كما ورد من مشروعك الأساسي 
-    (لا يوجد أي تأثير على الطباعة)
+    كود الطباعة الأصلي 100% (نسخة مطابقة لمشروعك الأول)
     ======================================================== */
 @media print {
     @page {
@@ -1806,4 +1882,71 @@ table.editor-table th {
     font-weight: bold !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+}
+
+
+
+/* ========================================================
+   تأثيرات الخلفية الساحرة (Animated Background & Glassmorphism)
+   ======================================================== */
+
+/* 1. خلفية الموقع (تدرج لوني متحرك ومبهر) */
+body {
+    /* تدرج لوني فاتح هادئ ومتحرك للوضع المضيء */
+    background: linear-gradient(-45deg, #e0e7ff, #fce7f3, #cffafe, #ede9fe) !important;
+    background-size: 400% 400% !important;
+    animation: animateBackground 15s ease infinite !important;
+}
+
+body.dark-mode {
+    /* تدرج لوني عميق وساحر للوضع الليلي */
+    background: linear-gradient(-45deg, #020617, #2e1065, #082f49, #17052e) !important;
+    background-size: 400% 400% !important;
+    animation: animateBackground 15s ease infinite !important;
+}
+
+/* محرك حركة الخلفية ببطء وانسيابية */
+@keyframes animateBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 2. تحويل مربع العمل الرئيسي (المحرر) إلى زجاج شفاف أنيق */
+.setup-container {
+    background: rgba(255, 255, 255, 0.65) !important;
+    /* شفافية زجاجية */
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 15px 50px -10px var(--glow-color) !important;
+}
+
+body.dark-mode .setup-container {
+    background: rgba(24, 24, 27, 0.65) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 3. تأمين الطباعة (لضمان خروج الورقة بيضاء ونظيفة بدون تداخل الخلفية الملونة) */
+@media print {
+    body {
+        background: white !important;
+        animation: none !important;
+    }
+
+    .setup-container {
+        background: white !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
 }

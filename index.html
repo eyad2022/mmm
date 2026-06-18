@@ -25,63 +25,55 @@
   </head>
 
   <body>
+      <!-- الناف بار العلوي العصري -->
     <nav class="top-navbar">
-      <div class="nav-right">
-        <button
-          class="nav-btn btn-outline"
-          onclick="document.getElementById('authModal').style.display = 'flex'"
-        >
-          تسجيل الدخول
-        </button>
-        <button
-          class="nav-btn btn-primary"
-          onclick="document.getElementById('authModal').style.display = 'flex'"
-        >
-          إنشاء حساب
-        </button>
-      </div>
+        <div class="nav-right" style="position: relative;">
+            <!-- أزرار الضيوف (تختفي عند تسجيل الدخول) -->
+            <div id="guestNavButtons" style="display: flex; gap: 12px;">
+                <button class="nav-btn btn-outline" onclick="document.getElementById('authModal').style.display='flex'">تسجيل الدخول</button>
+                <button class="nav-btn btn-primary" onclick="document.getElementById('authModal').style.display='flex'">إنشاء حساب</button>
+            </div>
 
-      <div class="nav-center">
-        <img
-          src="icon.png"
-          alt="شعار المحرر"
-          style="width: 35px; height: 35px; border-radius: 8px"
-        />
-        <h2
-          style="
-            margin: 0;
-            font-weight: 900;
-            font-size: 20px;
-            font-family: &quot;Arial Black&quot;, Impact, sans-serif;
-            background: linear-gradient(
-              135deg,
-              var(--primary-color),
-              var(--accent-color)
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-          "
-        >
-          M&H EDITOR PRO
-        </h2>
-        <button
-          class="theme-toggle"
-          onclick="toggleTheme()"
-          title="تبديل الوضع الداكن/المضيء"
-        >
-          🌙
-        </button>
-      </div>
+            <!-- زر القائمة المنسدلة للحساب (يظهر تلقائياً بعد تسجيل الدخول) -->
+            <div id="loggedInNav" style="display: none;">
+                <button class="nav-btn btn-outline" style="border-color: var(--correct-color); color: var(--correct-color); gap: 8px;" onclick="toggleCustomDropdown('profileDropdownMenu')">
+                    👤 حسابي
+                </button>
+                
+                <!-- القائمة المنسدلة (Dropdown) الخاصة بالحساب وسجل المستندات -->
+                <div id="profileDropdownMenu" class="floating-dropdown-menu" style="display: none; width: 330px; top: calc(100% + 15px); right: 0; padding: 15px; cursor: default;">
+                    <!-- تم نقل قسم بيانات المستخدم هنا ليقرأه الجافاسكريبت بشكل طبيعي -->
+                    <div id="userProfileSection" style="display: none; text-align: right;">
+                        <div style="margin-bottom: 15px; background: var(--ui-input-bg); padding: 12px; border-radius: 8px; border: 1px solid var(--ui-border);">
+                            <span style="font-weight: 900; color: var(--primary-color); font-size: 13px;">مرحباً بك: <br> <span id="currentLoggedInUser" style="color:var(--text-color);"></span> 🟢</span><br>
+                            <span style="font-size: 12px; color: #64748b; font-weight: bold; margin-top: 5px; display: inline-block;">(الأجهزة النشطة: <span id="activeDevicesCount">0</span> / 3)</span>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--ui-border);">
+                            <button id="adminPanelBtn" class="btn-tool btn-danger" onclick="document.getElementById('adminModal').style.display='flex'; closeCustomDropdown('profileDropdownMenu')" style="display: none; padding: 6px 12px; font-size: 12px;">⚙️ الإدارة</button>
+                            <button class="btn-tool btn-danger" onclick="handleLogoutCloud(); closeCustomDropdown('profileDropdownMenu')" style="padding: 6px 12px; font-size: 12px;">🚪 خروج</button>
+                            <button class="btn-tool" onclick="deleteUserAccount(); closeCustomDropdown('profileDropdownMenu')" style="background: #fee2e2; color: #b91c1c; border-color: #f87171; padding: 6px 12px; font-size: 12px;">🗑️ حذف الحساب</button>
+                        </div>
+                        
+                        <h4 style="margin: 0 0 10px 0; font-weight: 900; color: var(--ui-text); font-size: 13px;">🗂️ سجل المستندات السحابي:</h4>
+                        <div id="historyListContainer" style="max-height: 200px; overflow-y: auto; background: var(--ui-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--ui-border);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-center">
+            <img src="icon.png" alt="شعار المحرر" style="width: 35px; height: 35px; border-radius: 8px;">
+            <h2 style="margin: 0; font-weight: 900; font-size: 20px; font-family: 'Arial Black', Impact, sans-serif; background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">M&H EDITOR PRO</h2>
+            <button class="theme-toggle" onclick="toggleTheme()" title="تبديل الوضع الداكن/المضيء">🌙</button>
+        </div>
 
-      <div class="nav-left">
-        <button class="nav-btn btn-ai" onclick="requireVIP('ai', null)">
-          ✨ AI
-        </button>
-        <button class="nav-btn btn-vip" onclick="openVIPModalManual()">
-          👑 VIP
-        </button>
-      </div>
+        <div class="nav-left">
+            <button class="nav-btn btn-ai" onclick="requireVIP('ai', null)">✨ AI</button>
+            <button class="nav-btn btn-vip" onclick="openVIPModalManual()">👑 VIP</button>
+        </div>
     </nav>
+
 
     <div class="settings-dock">
       <button
@@ -191,7 +183,7 @@
               font-weight: bold;
               color: var(--primary-color);
             "
-            >العرض</span
+            >العرض (Width)</span
           >
           <div style="display: flex; gap: 4px; margin-top: 4px">
             <button
@@ -224,7 +216,7 @@
               font-weight: bold;
               color: var(--primary-color);
             "
-            >الطول</span
+            >الطول (Height)</span
           >
           <div style="display: flex; gap: 4px; margin-top: 4px">
             <button
@@ -315,22 +307,29 @@
 
       <div id="questionsTab" class="input-section active">
         <div
-          class="smart-tools-bar"
-          style="justify-content: center; gap: 15px; padding: 15px"
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            margin-bottom: 20px;
+          "
         >
           <button
-            class="btn-tool"
+            class="btn-icon"
             onclick="execUndo()"
-            title="تراجع خطوة للخلف"
+            title="تراجع خطوة للخلف (Undo)"
           >
-            ↩️ تراجع (Undo)
+            ↩️
           </button>
           <button
-            class="btn-tool"
+            class="btn-icon"
             onclick="execRedo()"
-            title="تقدم خطوة للأمام"
+            title="تقدم خطوة للأمام (Redo)"
           >
-            ↪️ عودة (Redo)
+            ↪️
           </button>
         </div>
 
@@ -373,7 +372,7 @@
               min-width: 200px;
             "
           >
-            🇸🇦 النظام العربي المطور (Default)
+            🇸🇦 النظام العربي المطور
           </button>
           <button
             id="sysBtnForeign"
@@ -413,24 +412,21 @@
               position: relative;
               display: flex;
               align-items: center;
-              gap: 10px;
+              gap: 15px;
             "
           >
-            <span style="font-weight: bold; color: var(--ui-text)"
+            <span
+              style="font-weight: bold; color: var(--ui-text); font-size: 15px"
               >أدوات الإدراج:</span
             >
             <button
-              class="btn-tool"
+              class="btn-icon-insert"
               onclick="toggleCustomDropdown('insertMenu')"
-              style="
-                background: var(--primary-color);
-                color: white;
-                border: none;
-                font-size: 15px;
-              "
+              title="إضافة عنصر جديد"
             >
-              ➕ إضافة عنصر <span style="font-size: 10px">▼</span>
+              ➕
             </button>
+
             <div
               id="insertMenu"
               class="floating-dropdown-menu"
@@ -520,6 +516,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('bold')"
+                title="عريض"
                 style="font-weight: 900"
               >
                 B
@@ -528,6 +525,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('italic')"
+                title="مائل"
                 style="font-style: italic"
               >
                 I
@@ -536,6 +534,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('underline')"
+                title="تسطير"
                 style="text-decoration: underline"
               >
                 U
@@ -545,6 +544,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyRight')"
+                title="محاذاة لليمين"
               >
                 ➡️
               </button>
@@ -552,6 +552,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyCenter')"
+                title="توسيط"
               >
                 ↔️
               </button>
@@ -559,6 +560,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyLeft')"
+                title="محاذاة لليسار"
               >
                 ⬅️
               </button>
@@ -566,6 +568,7 @@
               <input
                 type="color"
                 onchange="formatText('foreColor', this.value)"
+                title="لون النص"
                 style="
                   width: 30px;
                   height: 30px;
@@ -576,6 +579,7 @@
               />
               <select
                 onchange="formatText('fontSize', this.value)"
+                title="حجم الخط"
                 style="max-width: 90px; height: 32px; padding: 2px 8px"
               >
                 <option value="">حجم</option>
@@ -688,7 +692,7 @@
                 onclick="insertMathEquation()"
                 style="color: #ef4444; font-weight: bold; font-size: 13px"
               >
-                { } كود LaTeX
+                { } كتابة كود LaTeX حر
               </button>
               <button
                 type="button"
@@ -696,7 +700,7 @@
                 onclick="insertCustomTable()"
                 style="border-color: #0ea5e9; color: #0ea5e9; font-weight: bold"
               >
-                📊 جدول مخصص
+                📊 إدراج جدول مخصص
               </button>
             </div>
             <div
@@ -724,6 +728,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('bold')"
+                title="عريض"
                 style="font-weight: 900"
               >
                 B
@@ -732,6 +737,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('italic')"
+                title="مائل"
                 style="font-style: italic"
               >
                 I
@@ -740,6 +746,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('underline')"
+                title="تسطير"
                 style="text-decoration: underline"
               >
                 U
@@ -749,6 +756,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyRight')"
+                title="محاذاة لليمين"
               >
                 ➡️
               </button>
@@ -756,6 +764,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyCenter')"
+                title="توسيط"
               >
                 ↔️
               </button>
@@ -763,6 +772,7 @@
                 type="button"
                 onmousedown="event.preventDefault()"
                 onclick="formatText('justifyLeft')"
+                title="محاذاة لليسار"
               >
                 ⬅️
               </button>
@@ -770,6 +780,7 @@
               <input
                 type="color"
                 onchange="formatText('foreColor', this.value)"
+                title="لون النص"
                 style="
                   width: 30px;
                   height: 30px;
@@ -780,6 +791,7 @@
               />
               <select
                 onchange="formatText('fontSize', this.value)"
+                title="حجم الخط"
                 style="max-width: 90px; height: 32px; padding: 2px 8px"
               >
                 <option value="">حجم</option>
@@ -795,7 +807,7 @@
               contenteditable="true"
               class="rich-textarea"
               dir="auto"
-              placeholder="عنوان صفحة الإجابات هنا..."
+              placeholder="عنوان صفحة الإجابات هنا...&#10;إذا لم تضع الإجابة بجوار الخيار، اكتبها هنا:&#10;1- ب&#10;2- صح"
             ></div>
           </div>
         </div>
@@ -803,12 +815,16 @@
 
       <div id="textTab" class="input-section">
         <div class="form-group">
-          <label>📝 محرر المستندات المتقدم:</label>
+          <label
+            >📝 محرر المستندات المتقدم (متوافق مع أدوات وتنسيقات Word
+            مجاناً):</label
+          >
           <div class="editor-toolbar">
             <button
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('bold')"
+              title="عريض"
               style="font-weight: 900"
             >
               B
@@ -817,6 +833,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('italic')"
+              title="مائل"
               style="font-style: italic"
             >
               I
@@ -825,6 +842,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('underline')"
+              title="تسطير"
               style="text-decoration: underline"
             >
               U
@@ -833,6 +851,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('strikeThrough')"
+              title="يتوسطه خط"
               style="text-decoration: line-through"
             >
               S
@@ -842,6 +861,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('justifyRight')"
+              title="محاذاة لليمين"
             >
               ➡️
             </button>
@@ -849,6 +869,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('justifyCenter')"
+              title="توسيط"
             >
               ↔️
             </button>
@@ -856,6 +877,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('justifyLeft')"
+              title="محاذاة لليسار"
             >
               ⬅️
             </button>
@@ -864,6 +886,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('insertOrderedList')"
+              title="قائمة رقمية"
             >
               1.
             </button>
@@ -871,6 +894,7 @@
               type="button"
               onmousedown="event.preventDefault()"
               onclick="formatText('insertUnorderedList')"
+              title="قائمة نقطية"
             >
               •
             </button>
@@ -878,6 +902,7 @@
             <input
               type="color"
               onchange="formatText('foreColor', this.value)"
+              title="لون النص"
               style="
                 width: 30px;
                 height: 30px;
@@ -889,7 +914,7 @@
             <input
               type="color"
               onchange="formatText('hiliteColor', this.value)"
-              value="#ffff00"
+              title="لون التمييز"
               style="
                 width: 30px;
                 height: 30px;
@@ -897,9 +922,11 @@
                 border: none;
                 border-radius: 4px;
               "
+              value="#ffff00"
             />
             <select
               onchange="formatText('fontSize', this.value)"
+              title="حجم الخط"
               style="max-width: 90px; height: 32px; padding: 2px 8px"
             >
               <option value="">حجم</option>
@@ -1518,74 +1545,26 @@
         </div>
       </div>
     </div>
-
+<!-- نافذة تسجيل الدخول وإنشاء الحساب فقط -->
     <div id="authModal" class="custom-modal">
-      <div
-        class="modal-content auth-content"
-        style="border-top: 5px solid var(--primary-color)"
-      >
-        <div id="accountHistoryPanel">
-          <h3 style="color: var(--primary-color); margin-top: 0">
-            🔐 نظام الحسابات السحابي
-          </h3>
-          <div id="authSection">
-            <p style="font-size: 14px; color: #64748b; margin-bottom: 20px">
-              قم بتسجيل الدخول لحفظ بياناتك في السحابة ومزامنة تراخيص الـ VIP.
-            </p>
-            <div
-              class="settings-grid"
-              style="grid-template-columns: 1fr; gap: 15px; text-align: right"
-            >
-              <div class="form-group">
-                <label>البريد الإلكتروني</label
-                ><input
-                  type="email"
-                  id="emailInput"
-                  placeholder="أدخل البريد الإلكتروني"
-                />
-              </div>
-              <div class="form-group">
-                <label>كلمة المرور</label
-                ><input
-                  type="password"
-                  id="passwordInput"
-                  placeholder="******"
-                />
-              </div>
-              <div style="display: flex; gap: 10px; margin-top: 15px">
-                <button
-                  class="btn-tool"
-                  onclick="
-                    handleLoginCloud();
-                    document.getElementById('authModal').style.display = 'none';
-                  "
-                  style="
-                    flex: 1;
-                    justify-content: center;
-                    border-color: var(--primary-color);
-                    color: var(--primary-color);
-                  "
-                >
-                  تسجيل الدخول
-                </button>
-                <button
-                  class="btn-tool"
-                  onclick="
-                    handleSignupCloud();
-                    document.getElementById('authModal').style.display = 'none';
-                  "
-                  style="
-                    flex: 1;
-                    justify-content: center;
-                    background: var(--primary-color);
-                    color: white;
-                  "
-                >
-                  إنشاء حساب
-                </button>
-              </div>
+        <div class="modal-content auth-content" style="border-top: 5px solid var(--primary-color);">
+            <div id="accountHistoryPanel">
+                <h3 style="color: var(--primary-color); margin-top: 0;">🔐 نظام الحسابات السحابي</h3>
+                <div id="authSection">
+                    <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">قم بتسجيل الدخول لحفظ بياناتك في السحابة ومزامنة تراخيص الـ VIP.</p>
+                    <div class="settings-grid" style="grid-template-columns: 1fr; gap: 15px; text-align: right;">
+                        <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="emailInput" placeholder="أدخل البريد الإلكتروني"></div>
+                        <div class="form-group"><label>كلمة المرور</label><input type="password" id="passwordInput" placeholder="******"></div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn-tool" onclick="handleLoginCloud()" style="flex: 1; justify-content: center; border-color: var(--primary-color); color: var(--primary-color);">تسجيل الدخول</button>
+                            <button class="btn-tool" onclick="handleSignupCloud()" style="flex: 1; justify-content: center; background: var(--primary-color); color: white;">إنشاء حساب</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <button onclick="document.getElementById('authModal').style.display='none'" style="margin-top: 20px; background: #e2e8f0; color: #1e293b; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%;">إغلاق</button>
+        </div>
+    </div>
 
           <div id="userProfileSection" style="display: none; text-align: right">
             <div
@@ -2142,44 +2121,62 @@
     <script src="script.js"></script>
     <!-- <script src="main.js"></script> -->
 
+    <!-- سكريبت القوائم العائمة والمراقب الذكي (Observer) -->
     <script>
-      function toggleFloatingPanel(panelId) {
-        const panel = document.getElementById(panelId);
-        document.querySelectorAll(".floating-panel").forEach((p) => {
-          if (p.id !== panelId) p.style.display = "none";
-        });
-        panel.style.display =
-          panel.style.display === "none" || panel.style.display === ""
-            ? "block"
-            : "none";
-      }
-      function closeFloatingPanel(panelId) {
-        document.getElementById(panelId).style.display = "none";
-      }
-      function toggleCustomDropdown(menuId) {
-        const menu = document.getElementById(menuId);
-        menu.style.display =
-          menu.style.display === "none" || menu.style.display === ""
-            ? "flex"
-            : "none";
-      }
-      function closeCustomDropdown(menuId) {
-        document.getElementById(menuId).style.display = "none";
-      }
-      document.addEventListener("click", function (event) {
-        const menu = document.getElementById("insertMenu");
-        const toggleBtn = event.target.closest(
-          'button[onclick*="toggleCustomDropdown"]',
-        );
-        if (
-          menu &&
-          menu.style.display === "flex" &&
-          !toggleBtn &&
-          !menu.contains(event.target)
-        ) {
-          menu.style.display = "none";
+        function toggleFloatingPanel(panelId) {
+            const panel = document.getElementById(panelId);
+            document.querySelectorAll('.floating-panel').forEach(p => {
+                if(p.id !== panelId) p.style.display = 'none';
+            });
+            panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
         }
-      });
+        function closeFloatingPanel(panelId) {
+            document.getElementById(panelId).style.display = 'none';
+        }
+        function toggleCustomDropdown(menuId) {
+            const menu = document.getElementById(menuId);
+            menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'flex' : 'none';
+        }
+        function closeCustomDropdown(menuId) {
+            document.getElementById(menuId).style.display = 'none';
+        }
+        
+        // إغلاق القوائم عند الضغط خارجها
+        document.addEventListener('click', function(event) {
+            const insertMenu = document.getElementById('insertMenu');
+            const profileMenu = document.getElementById('profileDropdownMenu');
+            const toggleBtnInsert = event.target.closest('button[onclick*="toggleCustomDropdown(\'insertMenu\')"]');
+            const toggleBtnProfile = event.target.closest('button[onclick*="toggleCustomDropdown(\'profileDropdownMenu\')"]');
+            
+            if (insertMenu && insertMenu.style.display === 'flex' && !toggleBtnInsert && !insertMenu.contains(event.target)) {
+                insertMenu.style.display = 'none';
+            }
+            if (profileMenu && profileMenu.style.display === 'flex' && !toggleBtnProfile && !profileMenu.contains(event.target)) {
+                profileMenu.style.display = 'none';
+            }
+        });
+
+        // المراقب السحري: يقوم بتبديل أزرار الناف بار وإغلاق نافذة الدخول تلقائياً بمجرد تسجيل الدخول
+        window.addEventListener('DOMContentLoaded', () => {
+            const profileSec = document.getElementById('userProfileSection');
+            if(profileSec) {
+                const observer = new MutationObserver(() => {
+                    const guestNav = document.getElementById('guestNavButtons');
+                    const loggedInNav = document.getElementById('loggedInNav');
+                    const authModal = document.getElementById('authModal');
+                    
+                    if (profileSec.style.display !== 'none') {
+                        guestNav.style.display = 'none';
+                        loggedInNav.style.display = 'block';
+                        authModal.style.display = 'none'; // يغلق المربع المنبثق فور الدخول
+                    } else {
+                        guestNav.style.display = 'flex';
+                        loggedInNav.style.display = 'none';
+                    }
+                });
+                observer.observe(profileSec, { attributes: true, attributeFilter: ['style'] });
+            }
+        });
     </script>
   </body>
 </html>
