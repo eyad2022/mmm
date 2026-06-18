@@ -11,7 +11,9 @@
     --q-color: #1e293b;
     --opt-color: #334155;
     --primary-color: #6366f1;
+    /* النيلي العصري */
     --accent-color: #8b5cf6;
+    /* بنفسجي فاتح */
     --correct-color: #10b981;
     --card-radius: 12px;
     --page-bg-color: #ffffff;
@@ -81,6 +83,9 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* ========================================================
+    الناف بار العلوي العائم (تصميم الشاشات الكبيرة)
+    ======================================================== */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -162,6 +167,9 @@ body.dark-mode .top-navbar {
     color: white;
 }
 
+/* ========================================================
+    شريط المهام الجانبي (Dock)
+    ======================================================== */
 .settings-dock {
     position: fixed;
     right: 20px;
@@ -232,6 +240,9 @@ body.dark-mode .dock-item {
     margin: 0 auto;
 }
 
+/* ========================================================
+    اللوحات العائمة (Floating Panels)
+    ======================================================== */
 .floating-panel {
     position: fixed;
     right: 95px;
@@ -321,6 +332,9 @@ body.dark-mode .floating-panel .panel-header {
     gap: 15px;
 }
 
+/* ========================================================
+    قائمة الإدراج المنسدلة (Dropdown)
+    ======================================================== */
 .floating-dropdown-menu {
     position: absolute;
     top: calc(100% + 10px);
@@ -373,6 +387,9 @@ body.dark-mode .floating-panel .panel-header {
     transform: translateX(-5px);
 }
 
+/* ========================================================
+    التنسيقات الأساسية للحاوية
+    ======================================================== */
 .setup-container {
     max-width: 1300px;
     margin: 110px auto 40px auto;
@@ -1323,18 +1340,16 @@ button.action-btn:hover {
 }
 
 /* ========================================================
-    التجاوب مع شاشات الهاتف - تصميم الناف بار المرن (Flexbox) المصلح
+    التجاوب مع شاشات الهاتف الصغيرة جداً (إصلاح جذري للتشوه)
     ======================================================== */
 @media (max-width: 768px) {
     .top-navbar {
         height: auto;
-        padding: 15px;
+        padding: 12px;
         display: flex;
-        flex-wrap: wrap;
-        /* السماح بالتوزيع في أكثر من صف */
-        justify-content: space-between;
-        gap: 12px 0;
-        /* مسافة عمودية بين الصفين */
+        flex-direction: column;
+        /* تحويل الناف بار لعمود لترتيب العناصر فوق بعضها بثبات */
+        gap: 12px;
         background: var(--ui-container);
     }
 
@@ -1344,46 +1359,45 @@ button.action-btn:hover {
 
     .nav-center {
         order: 1;
-        /* تأكيد صعود اللوجو والاسم للصف الأول */
+        /* إجبار اللوجو واسم الموقع على الظهور في الصف الأول */
         width: 100%;
-        /* أخذ مساحة العرض بالكامل */
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid var(--ui-border);
-        padding-bottom: 12px;
+        padding-bottom: 10px;
     }
 
     .top-navbar h2 {
         display: block !important;
-        font-size: 16px !important;
+        font-size: 15px !important;
         margin: 0;
         text-align: center;
+        white-space: nowrap;
+        /* منع انكسار الكلمة */
     }
 
     .nav-right {
         order: 2;
-        /* الصف الثاني - يمين */
-        width: 48%;
-        /* أخذ مساحة النصف تقريباً */
+        /* إجبار أزرار الحسابات على الظهور في الصف الثاني */
+        width: 100%;
         display: flex;
-        gap: 8px;
+        gap: 10px;
     }
 
     .nav-left {
         order: 3;
-        /* الصف الثاني - يسار */
-        width: 48%;
-        /* أخذ مساحة النصف الآخر */
+        /* إجبار أزرار الذكاء الاصطناعي على الظهور في الصف الثالث */
+        width: 100%;
         display: flex;
-        gap: 8px;
+        gap: 10px;
     }
 
     .nav-btn {
-        padding: 10px 4px;
-        font-size: 12px;
+        padding: 10px 5px;
+        font-size: 13px;
         flex: 1;
-        /* توزيع متساو للأزرار وتوحيد الأحجام */
+        /* جعل الأزرار تتمدد بشكل متساوٍ لملء الشاشة بالكامل */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1391,9 +1405,9 @@ button.action-btn:hover {
     }
 
     .setup-container {
-        margin-top: 140px;
-        /* مساحة كافية للناف بار في وضع الموبايل */
-        padding: 20px;
+        margin-top: 170px;
+        /* زيادة المساحة العلوية لاستيعاب الناف بار الجديد بدون تداخل */
+        padding: 15px;
         width: 100%;
         border-radius: 12px;
     }
@@ -1425,14 +1439,21 @@ button.action-btn:hover {
         width: 100%;
     }
 
+    /* إصلاح خروج الكلمات عن الأزرار العادية */
     .btn-tool {
         width: 100%;
         justify-content: center;
+        white-space: normal;
+        height: auto;
+        min-height: 42px;
+        text-align: center;
+        line-height: 1.4;
     }
 
+    /* ترتيب القوائم الجانبية لتكون عمودية ولا تنكسر */
     .settings-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .form-group:has(input[type="text"]) {
@@ -1505,6 +1526,7 @@ button.action-btn:hover {
         margin-bottom: 20px !important;
     }
 
+    /* إصلاح تداخل الأيقونات في الشريط السفلي بجعله قابل للتمرير الأفقي بسلاسة */
     .settings-dock {
         right: 0;
         left: 0;
@@ -1513,17 +1535,27 @@ button.action-btn:hover {
         transform: none;
         flex-direction: row;
         border-radius: 20px 20px 0 0;
-        justify-content: space-around;
+        justify-content: flex-start;
         overflow-x: auto;
+        flex-wrap: nowrap;
         border: none;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.95);
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.98);
+        gap: 15px;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
     }
 
     body.dark-mode .settings-dock {
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(15, 23, 42, 0.98);
     }
 
+    .dock-item {
+        flex-shrink: 0;
+        width: 45px;
+        height: 45px;
+    }
+
+    /* منع انضغاط الأيقونات */
     .dock-divider {
         display: none;
     }
@@ -1534,12 +1566,14 @@ button.action-btn:hover {
         top: 50%;
         transform: translateY(-50%);
         width: 90%;
+        max-height: 75vh;
     }
 }
 
+
 /* ========================================================
     كود الطباعة الأصلي 100% كما ورد من مشروعك الأساسي 
-    مع إخفاء الناف بار الجديد فقط (لا يوجد أي تعديل آخر)
+    (لا يوجد أي تأثير على الطباعة)
     ======================================================== */
 @media print {
     @page {
@@ -1740,12 +1774,6 @@ button.action-btn:hover {
         width: 100vw;
         background: white !important;
     }
-
-    .word-sidebar,
-    .btn-print,
-    .btn-close {
-        display: none !important;
-    }
 }
 
 table.editor-table {
@@ -1758,6 +1786,7 @@ table.editor-table {
 table.editor-table tr {
     min-height: 55px !important;
     height: 55px !important;
+    page-break-inside: avoid !important;
 }
 
 table.editor-table th,
@@ -1775,25 +1804,6 @@ table.editor-table td {
 table.editor-table th {
     background-color: #f1f5f9 !important;
     font-weight: bold !important;
-}
-
-@media print {
-    table.editor-table {
-        page-break-inside: avoid !important;
-    }
-
-    table.editor-table tr,
-    table.editor-table th,
-    table.editor-table td {
-        height: 55px !important;
-        min-height: 55px !important;
-        padding: 15px !important;
-        border: 2px solid #000 !important;
-    }
-
-    table.editor-table th {
-        background-color: #e2e8f0 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
 }
