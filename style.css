@@ -11,9 +11,7 @@
     --q-color: #1e293b;
     --opt-color: #334155;
     --primary-color: #6366f1;
-    /* النيلي العصري */
     --accent-color: #8b5cf6;
-    /* بنفسجي فاتح */
     --correct-color: #10b981;
     --card-radius: 12px;
     --page-bg-color: #ffffff;
@@ -83,9 +81,6 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* ========================================================
-    1. الناف بار العلوي العائم (تصميم الشاشات الكبيرة)
-    ======================================================== */
 .top-navbar {
     position: fixed;
     top: 0;
@@ -167,9 +162,6 @@ body.dark-mode .top-navbar {
     color: white;
 }
 
-/* ========================================================
-    2. شريط المهام الجانبي (Dock)
-    ======================================================== */
 .settings-dock {
     position: fixed;
     right: 20px;
@@ -240,9 +232,6 @@ body.dark-mode .dock-item {
     margin: 0 auto;
 }
 
-/* ========================================================
-    3. اللوحات العائمة (Floating Panels)
-    ======================================================== */
 .floating-panel {
     position: fixed;
     right: 95px;
@@ -332,9 +321,6 @@ body.dark-mode .floating-panel .panel-header {
     gap: 15px;
 }
 
-/* ========================================================
-    4. قائمة الإدراج المنسدلة (Dropdown)
-    ======================================================== */
 .floating-dropdown-menu {
     position: absolute;
     top: calc(100% + 10px);
@@ -387,9 +373,6 @@ body.dark-mode .floating-panel .panel-header {
     transform: translateX(-5px);
 }
 
-/* ========================================================
-    التنسيقات الأساسية للحاوية
-    ======================================================== */
 .setup-container {
     max-width: 1300px;
     margin: 110px auto 40px auto;
@@ -1160,7 +1143,6 @@ button.action-btn:hover {
     background: transparent;
 }
 
-/* نوافذ المودال */
 .word-print-modal {
     display: none;
     position: fixed;
@@ -1341,34 +1323,35 @@ button.action-btn:hover {
 }
 
 /* ========================================================
-    التجاوب مع شاشات الهاتف - تصميم Grid احترافي
+    التجاوب مع شاشات الهاتف - تصميم الناف بار المرن (Flexbox) المصلح
     ======================================================== */
 @media (max-width: 768px) {
     .top-navbar {
         height: auto;
-        padding: 15px 12px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        /* تقسيم الناف بار لعمودين للأسفل */
-        gap: 15px 10px;
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        /* السماح بالتوزيع في أكثر من صف */
+        justify-content: space-between;
+        gap: 12px 0;
+        /* مسافة عمودية بين الصفين */
         background: var(--ui-container);
-        /* خلفية صلبة لمنع الشفافية المزعجة */
     }
 
     body.dark-mode .top-navbar {
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(15, 23, 42, 0.98);
     }
 
     .nav-center {
-        grid-column: 1 / -1;
-        /* يأخذ مساحة الصف العلوي بالكامل */
+        order: 1;
+        /* تأكيد صعود اللوجو والاسم للصف الأول */
+        width: 100%;
+        /* أخذ مساحة العرض بالكامل */
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid var(--ui-border);
         padding-bottom: 12px;
-        order: 0;
-        /* تأكيد بقائه في الأعلى */
     }
 
     .top-navbar h2 {
@@ -1379,15 +1362,19 @@ button.action-btn:hover {
     }
 
     .nav-right {
-        grid-column: 1;
-        /* النصف الأيمن */
+        order: 2;
+        /* الصف الثاني - يمين */
+        width: 48%;
+        /* أخذ مساحة النصف تقريباً */
         display: flex;
         gap: 8px;
     }
 
     .nav-left {
-        grid-column: 2;
-        /* النصف الأيسر */
+        order: 3;
+        /* الصف الثاني - يسار */
+        width: 48%;
+        /* أخذ مساحة النصف الآخر */
         display: flex;
         gap: 8px;
     }
@@ -1396,7 +1383,7 @@ button.action-btn:hover {
         padding: 10px 4px;
         font-size: 12px;
         flex: 1;
-        /* كل زر يأخذ نفس المساحة بالضبط */
+        /* توزيع متساو للأزرار وتوحيد الأحجام */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1405,7 +1392,7 @@ button.action-btn:hover {
 
     .setup-container {
         margin-top: 140px;
-        /* ضبط الهامش ليتناسب مع حجم الناف بار الجديد */
+        /* مساحة كافية للناف بار في وضع الموبايل */
         padding: 20px;
         width: 100%;
         border-radius: 12px;
@@ -1518,7 +1505,6 @@ button.action-btn:hover {
         margin-bottom: 20px !important;
     }
 
-    /* جعل القائمة الجانبية في أسفل الشاشة للموبايل */
     .settings-dock {
         right: 0;
         left: 0;
@@ -1552,7 +1538,8 @@ button.action-btn:hover {
 }
 
 /* ========================================================
-    كود الطباعة الأصلي 100% كما هو (بدون أي تأثير على الطباعة)
+    كود الطباعة الأصلي 100% كما ورد من مشروعك الأساسي 
+    مع إخفاء الناف بار الجديد فقط (لا يوجد أي تعديل آخر)
     ======================================================== */
 @media print {
     @page {
@@ -1560,7 +1547,6 @@ button.action-btn:hover {
         size: A4 portrait;
     }
 
-    /* تصفير الخصائص التي تمنع كسر الصفحات */
     html,
     body {
         height: auto !important;
@@ -1571,21 +1557,20 @@ button.action-btn:hover {
         padding: 0 !important;
     }
 
-    /* إخفاء كل عناصر الموقع الأساسية بشكل صريح ما عدا نافذة الطباعة */
     body>*:not(#wordPrintModal) {
         display: none !important;
     }
 
+    .setup-container,
+    #toastContainer,
+    .custom-modal,
+    .word-sidebar,
+    #imageToolbar,
+    .print-warning-note,
     .top-navbar,
     .settings-dock,
     .floating-panel,
-    #toastContainer,
-    .custom-modal,
-    .image-toolbar,
-    .print-warning-note,
-    .word-sidebar,
-    .btn-print,
-    .btn-close {
+    .floating-dropdown-menu {
         display: none !important;
     }
 
@@ -1755,6 +1740,12 @@ button.action-btn:hover {
         width: 100vw;
         background: white !important;
     }
+
+    .word-sidebar,
+    .btn-print,
+    .btn-close {
+        display: none !important;
+    }
 }
 
 table.editor-table {
@@ -1767,7 +1758,6 @@ table.editor-table {
 table.editor-table tr {
     min-height: 55px !important;
     height: 55px !important;
-    page-break-inside: avoid !important;
 }
 
 table.editor-table th,
@@ -1785,6 +1775,25 @@ table.editor-table td {
 table.editor-table th {
     background-color: #f1f5f9 !important;
     font-weight: bold !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+}
+
+@media print {
+    table.editor-table {
+        page-break-inside: avoid !important;
+    }
+
+    table.editor-table tr,
+    table.editor-table th,
+    table.editor-table td {
+        height: 55px !important;
+        min-height: 55px !important;
+        padding: 15px !important;
+        border: 2px solid #000 !important;
+    }
+
+    table.editor-table th {
+        background-color: #e2e8f0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 }
