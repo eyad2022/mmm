@@ -43,46 +43,38 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // =====================================================================
-// 🛡️ نظام بصمة الجهاز المعقدة (لمنع التخفي والتلاعب)
+// 🛡️ نظام بصمة الجهاز المعقدة (لمنع التخفي والتلاعب) - نسخة مصححة
 // =====================================================================
-//import { Device } from '@capacitor/device'; // تأكد من وجود هذا السطر في أعلى الملف
-
-async function generateDeviceFingerprint() {
-    // 1. محاولة الحصول على المعرف الحقيقي من نظام الأندرويد (الحماية المطلقة)
+function generateDeviceFingerprint() {
     try {
-        const info = await Device.getId();
-        return "HW_UUID_" + info.identifier;
-    } catch (e) {
-        // 2. إذا لم نكن داخل تطبيق أندرويد، نستخدم البصمة الذكية التي صممتها
-        try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 200; canvas.height = 50;
-            ctx.textBaseline = "top"; ctx.font = "14px 'Arial'";
-            ctx.fillStyle = "#f60"; ctx.fillRect(125,1,62,20);
-            ctx.fillStyle = "#069"; ctx.fillText("M&H Editor Pro", 2, 15);
-            const canvasData = canvas.toDataURL();
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 200; canvas.height = 50;
+        ctx.textBaseline = "top"; ctx.font = "14px 'Arial'";
+        ctx.fillStyle = "#f60"; ctx.fillRect(125,1,62,20);
+        ctx.fillStyle = "#069"; ctx.fillText("M&H Editor Pro", 2, 15);
+        const canvasData = canvas.toDataURL();
 
-            const screenData = window.screen.width + "x" + window.screen.height;
-            const rawString = canvasData + screenData + navigator.userAgent;
+        const screenData = window.screen.width + "x" + window.screen.height;
+        const rawString = canvasData + screenData + navigator.userAgent;
 
-            let hash = 0;
-            for (let i = 0; i < rawString.length; i++) {
-                hash = ((hash << 5) - hash) + rawString.charCodeAt(i);
-                hash = hash & hash;
-            }
-            return "WEB_FP_" + Math.abs(hash).toString(16);
-        } catch (err) {
-            // 3. خط الدفاع الأخير (عشوائي)
-            return "DEV_RND_" + Math.random().toString(36).substring(2, 15);
+        let hash = 0;
+        for (let i = 0; i < rawString.length; i++) {
+            hash = ((hash << 5) - hash) + rawString.charCodeAt(i);
+            hash = hash & hash;
         }
+        return "WEB_FP_" + Math.abs(hash).toString(16);
+    } catch (err) {
+        return "DEV_RND_" + Math.random().toString(36).substring(2, 15);
     }
 }
 
-// استدعاء نظام البصمة بدلاً من التوليد العشوائي القديم
-let localDeviceId = localStorage.getItem('elalfey_device_id') || generateDeviceFingerprint();
-localStorage.setItem('elalfey_device_id', localDeviceId);
-// =====================================================================
+let localDeviceId = localStorage.getItem('elalfey_device_id');
+// التحقق من عدم وجود الخطأ القديم (Promise) في المتصفح وتصحيحه فوراً
+if (!localDeviceId || localDeviceId === "[object Promise]") {
+    localDeviceId = generateDeviceFingerprint();
+    localStorage.setItem('elalfey_device_id', localDeviceId);
+}
 
 let currentMode = 'questions';
 let currentQuestionSystem = 'arabic';
@@ -2961,56 +2953,6 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js')
             .then(reg => console.log('✅ تم تفعيل PWA بنجاح!', reg.scope))
             .catch(err => console.error('❌ فشل تفعيل PWA:', err));
-    });
-}
-let chartsInitialized = false;
-
-// دالة فتح لوحة الإدارة
-function openAdminPanel() {
-    document.getElementById('adminPanelModal').style.display = 'flex';
-    
-    if (chartsInitialized) return; // لمنع إعادة رسم الجداول إذا تم فتحها مسبقاً
-    chartsInitialized = true;
-
-    // 1. رسم بياني لنشاط المستخدمين
-    new Chart(document.getElementById('usersActivityChart'), {
-        type: 'line',
-        data: {
-            labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
-            datasets: [{
-                label: 'المستخدمين النشطين',
-                data: [120, 190, 300, 250, 200, 350, 400],
-                borderColor: '#6366f1',
-                backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                tension: 0.4,
-                fill: true
-            }]
-        }
-    });
-
-    // 2. رسم بياني لاستخدام الذكاء الاصطناعي
-    new Chart(document.getElementById('aiUsageChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['توليد أسئلة', 'التنسيق الذكي', 'ترجمة النصوص'],
-            datasets: [{
-                data: [500, 300, 150],
-                backgroundColor: ['#10b981', '#3b82f6', '#f59e0b']
-            }]
-        }
-    });
-
-    // 3. رسم بياني لاستهلاك الأكواد
-    new Chart(document.getElementById('codesUsageChart'), {
-        type: 'bar',
-        data: {
-            labels: ['أكواد مستخدمة', 'أكواد متاحة', 'أكواد منتهية الصلاحية'],
-            datasets: [{
-                label: 'حالة الأكواد',
-                data: [450, 800, 120],
-                backgroundColor: ['#ef4444', '#10b981', '#6b7280']
-            }]
-        }
     });
 }
 let chartsInitialized = false;

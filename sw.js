@@ -36,24 +36,26 @@ self.addEventListener('activate', event => {
     );
 });
 
-// 3. استراتيجية (Stale-While-Revalidate) مع التخزين الديناميكي للأرشيف
+// 3. استراتيجية (Network First) لضمان تحديث الأكواد دائماً للمستخدمين
 self.addEventListener('fetch', event => {
-    // لا نتدخل في طلبات قواعد البيانات (Firebase) نتركها لتعمل بطريقتها
-    if (event.request.url.includes('firestore.googleapis.com')) {
+    // تجاهل طلبات قواعد البيانات (Firebase)
+    if (event.request.method !== 'GET' || event.request.url.includes('firestore.googleapis.com')) {
         return;
     }
 
     event.respondWith(
-        caches.match(event.request).then(cachedResponse => {
-            const fetchPromise = fetch(event.request).then(networkResponse => {
+        // 1. نحاول جلب الملفات من الإنترنت أولاً (لرؤية التحديثات الجديدة)
+        fetch(event.request).then(networkResponse => {
+            if (networkResponse && networkResponse.status === 200) {
+                const responseToCache = networkResponse.clone();
                 caches.open(DYNAMIC_CACHE).then(cache => {
-                    cache.put(event.request, networkResponse.clone());
+                    cache.put(event.request, responseToCache);
                 });
-                return networkResponse;
-            }).catch(() => {
-                // في حالة انقطاع النت وعدم وجود كاش، يمكن إرجاع صفحة مخصصة
-            });
-            return cachedResponse || fetchPromise;
+            }
+            return networkResponse;
+        }).catch(() => {
+            // 2. إذا انقطع الإنترنت فقط، نقوم بجلب الملفات من الكاش
+            return caches.match(event.request);
         })
     );
 });

@@ -69,9 +69,10 @@
 
             <div
               style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--ui-border);">
-              <button id="adminPanelBtn" class="btn-tool btn-danger"
-                onclick="document.getElementById('adminModal').style.display='flex'; closeCustomDropdown('profileDropdownMenu')"
-                style="display: none; padding: 6px 12px; font-size: 12px;">⚙️ الإدارة</button>
+             <span id="adminPanelBtn" style="display: none;">
+    <button class="btn-tool btn-danger" onclick="document.getElementById('adminModal').style.display='flex'; closeCustomDropdown('profileDropdownMenu')" style="display: inline-flex; margin-left: 8px; padding: 6px 12px; font-size: 12px;">⚙️ الإدارة</button>
+    <button class="btn-tool" onclick="openAdminPanel(); closeCustomDropdown('profileDropdownMenu')" style="display: inline-flex; background: #6366f1; color: white; border-color: #4f46e5; padding: 6px 12px; font-size: 12px;">📊 الإحصائيات</button>
+</span>
                 
               <button class="btn-tool btn-danger"
                 onclick="handleLogoutCloud(); closeCustomDropdown('profileDropdownMenu')"
