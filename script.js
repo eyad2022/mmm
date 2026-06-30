@@ -561,44 +561,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-// 🛑 دالة الخروج المدمرة (تمحو كل شيء)
+// 🛑 دالة الخروج المدمرة (تمحو كل شيء) - النسخة المصححة
 async function handleLogoutCloud() {
     try {
+        // 1. إيقاف المراقب السحابي فوراً قبل أي شيء لمنع ظهور رسالة "الخروج الإجباري" الخاطئة
+        if (typeof sessionListener === 'function') {
+            sessionListener();
+            sessionListener = null;
+        }
+
         const user = auth.currentUser;
         if (user) {
+            // إزالة بصمة الجهاز من السحابة بهدوء
             const docRef = db.collection('users').doc(user.uid);
             await docRef.update({
                 devices: firebase.firestore.FieldValue.arrayRemove(localDeviceId)
             });
         }
 
-        // مسح جميع الصلاحيات
+        // 2. مسح جميع الصلاحيات من المتصفح
         localStorage.removeItem('elalfey_vip_expiry');
-        //localStorage.removeItem('elalfey_trial_start');
         localStorage.removeItem('elalfey_q_input');
         localStorage.removeItem('elalfey_a_input');
         localStorage.removeItem('elalfey_general_text');
 
-        // تفريغ المحرر بالكامل
+        // 3. تفريغ المحرر بالكامل
         if (document.getElementById('questionsInput')) document.getElementById('questionsInput').innerHTML = '';
         if (document.getElementById('answersInput')) document.getElementById('answersInput').innerHTML = '';
-        if (document.getElementById('generalTextInput')) document.getElementById('generalTextInput').innerHTML = '';
+        if (document.getElementById('generalTextInput')) document.getElementById('generalTextInput').innerHTML = 'اكتب محتوى المستند الخاص بك هنا...';
 
+        // تصفير بنك الأسئلة
         questionsDatabase = [];
-        appHistory = [];
 
+        // 4. تسجيل الخروج النهائي من فايربيز
         await auth.signOut();
+        
+        // إغلاق أي قوائم مفتوحة
+        if (document.getElementById('profileDropdownMenu')) {
+            document.getElementById('profileDropdownMenu').style.display = 'none';
+        }
 
-        document.getElementById('authSection').style.display = 'block';
-        document.getElementById('userProfileSection').style.display = 'none';
-        document.getElementById('adminPanelBtn').style.display = 'none';
-
-        showToast('تم تسجيل الخروج ومحو جميع الصلاحيات والمزايا من الجهاز', 'info');
+        showToast('تم تسجيل الخروج ومحو بياناتك من الجهاز بنجاح', 'info');
     } catch (error) {
-        showToast('حدث خطأ أثناء الخروج', 'error');
+        console.error("Logout Error:", error);
+        showToast('حدث خطأ أثناء الخروج: ' + error.message, 'error');
     }
 }
-
 
 // 🛑 دالة حذف الحساب نهائياً (مع نظام حرق الجهاز)
 async function deleteUserAccount() {
@@ -1428,8 +1436,9 @@ async function generateAIQuestions(mode = 'quiz') {
 
     let systemInstruction = mode === 'quiz' ?
         "أنت مساعد تعليمي. استخرج أسئلة من النص التالي. المخرج النهائي يجب أن يكون كود JSON فقط (مصفوفة كائنات) بدون أي نصوص أخرى. هيكل الكائن المطلوب:\n[\n  { \"type\": \"mcq\", \"text\": \"نص السؤال؟\", \"options\": [{\"l\":\"أ\", \"t\":\"خيار 1\"}, {\"l\":\"ب\", \"t\":\"خيار 2\"}], \"ans\": \"أ\" }\n]" :
-        "أنت مساعد ذكي موسوعي. أجب على السؤال التالي بشكل مباشر ومهني باللغة العربية.";
-
+        mode === 'classify' ? 
+        "أنت خبير تربوي وموجه امتحانات. مهمتك هي قراءة الأسئلة المرفقة، ثم:\n1. تصنيف كل سؤال حسب مستوى الصعوبة (سهل، متوسط، قدرات عليا).\n2. اقتراح توزيع عادل ومنطقي للدرجات لكل سؤال بناءً على صعوبته وطوله.\n3. تقديم جدول إحصائي نهائي يوضح (عدد الأسئلة، الدرجة الكلية المقترحة، ونسبة كل مستوى صعوبة).\nأجب باللغة العربية، ونسق إجابتك باستخدام HTML (مثل <strong>، <br>، و <ul>) لتبدو جميلة عند عرضها." :
+        "أنت مساعد ذكي موسوعي. أجب على السؤال التالي بشكل مباشر ومهني باللغة العربية مع استخدام وسوم HTML البسيطة مثل <strong> و <br> لتنسيق الإجابة.";
     let promptText = `${systemInstruction}\n\nالمحتوى المطلوب معالجته:\n${txt}`;
 
     try {
@@ -3024,4 +3033,38 @@ async function openAdminPanel() {
         console.error("خطأ في جلب بيانات لوحة الإدارة: ", error);
         showToast("حدث خطأ أثناء تحميل الإحصائيات", "error");
     }
+}
+async function extractTextFromImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    showToast('جاري قراءة الصورة واستخراج النص.. قد يستغرق هذا بضع ثوانٍ ⏳', 'info');
+    
+    try {
+        // استخدام Tesseract لدعم اللغتين العربية والإنجليزية معاً
+        const result = await Tesseract.recognize(
+            file,
+            'ara+eng', 
+            { logger: m => console.log(m) } // يمكنك إزالة هذا السطر لاحقاً، هو فقط لمتابعة التقدم في الـ Console
+        );
+        
+        const extractedText = result.data.text;
+        
+        // إدراج النص المستخرج في محرر الأسئلة
+        document.getElementById('questionsInput').focus();
+        
+        // تحويل الأسطر إلى فواصل <br> ليتم إدراجها بشكل صحيح كـ HTML
+        const formattedText = extractedText.replace(/\n/g, '<br>');
+        document.execCommand('insertHTML', false, formattedText + '<br>');
+        
+        showToast('✅ تم استخراج النص بنجاح! يمكنك تعديله الآن.', 'success');
+        
+        syncTextToDatabase();
+        autoSaveData();
+    } catch (error) {
+        console.error(error);
+        showToast('❌ حدث خطأ أثناء تحليل الصورة، تأكد من وضوحها.', 'error');
+    }
+    
+    e.target.value = ''; // تفريغ الحقل
 }

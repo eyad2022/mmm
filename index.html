@@ -31,6 +31,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 
 <body>
@@ -356,6 +357,15 @@
                 ">
               📝 سؤال مقالي
             </button>
+            <button onclick="
+                  document.getElementById('ocrImageUpload').click();
+                  closeCustomDropdown('insertMenu');
+                ">
+              📄 استخراج نص من صورة (OCR)
+            </button>
+            <input type="file" id="ocrImageUpload" accept="image/*" style="display: none" onchange="extractTextFromImage(event)" />
+            
+            <div style="height: 1px; background: var(--ui-border); margin: 5px 0"></div>
             <div style="height: 1px; background: var(--ui-border); margin: 5px 0"></div>
             <button onclick="
                   document.getElementById('qImageUpload').click();
@@ -1555,6 +1565,18 @@
               font-family: inherit;
             ">
           ✨ توليد أسئلة
+        </button>
+        <button onclick="generateAIQuestions('classify')" style="
+              background: linear-gradient(135deg, #f59e0b, #d97706);
+              color: white;
+              border: none;
+              padding: 12px 20px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: bold;
+              font-family: inherit;
+            ">
+          📊 تحليل وتوزيع الدرجات
         </button>
         <button onclick="document.getElementById('aiModal').style.display = 'none'" style="
               background: #e2e8f0;
